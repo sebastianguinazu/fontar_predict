@@ -11,8 +11,10 @@ fontar_base = readRDS("working/fontar_base.rds")
 
 models_id = 'gb'
 
-file_models = glue('out/file_models_{models_id}.rds')
-file_metrics = glue('out/file_metrics_{models_id}.csv')
+file_models = glue('working/file_models_{models_id}.rds')
+
+file_metrics = glue('working/file_metrics_{models_id}.csv')
+export_metrics = glue('out/file_metrics_{models_id}.csv')
 
 
 ## prepare the data ---------------------------------------------------------------------
@@ -99,6 +101,5 @@ metricas_w = metricas_tmp %>%
          dif_ks = ks_train - ks_val)
 
 # save 
-write_csv(metricas_w, file_metrics)
-
-metricas_w %>% View()
+saveRDS(metricas_w, file_metrics)
+write_csv(metricas_w, export_metrics)
