@@ -86,7 +86,7 @@ fontar_base = fontar_base %>%
 ## me quedo solo con las var que se que son  --------------------------------------------
 
 # elimino las variables que no se que son
-path_vars = glue(getwd(), "/bds/fontar_vars.xlsx")
+path_vars = glue(getwd(), "/raw/fontar_vars.xlsx")
 vars_ok = readxl::read_excel(path_vars)
 
 vars_to_rm = subset(vars_ok, ok == 0)$Variable
@@ -94,7 +94,7 @@ vars_to_rm = subset(vars_ok, ok == 0)$Variable
 vars_to_rm = map(c("1yearb", "2yearb", "3yearb"), ~ vars_to_rm %+% .) %>% unlist()
 
 # agrego otras vars a eliminar
-vars_to_rm = c(vars_to_rm, 'd_fontar_yearmin', 'fontar_cant')
+vars_to_rm = c(vars_to_rm, 'd_fontar_yearmin')
 fontar_base = fontar_base %>% select(-one_of(vars_to_rm))
 
 

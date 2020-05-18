@@ -18,6 +18,10 @@ export_metrics = glue('out/file_metrics_{models_id}.csv')
 
 ## prepare the data ---------------------------------------------------------------------
 
+# elimino algunas variables
+vars_to_rm = c('clae2', 'clae3', 'clae4', 'cpa', 'link')
+fontar_base = fontar_base %>% select(-one_of(vars_to_rm))
+
 ready_dats = get_xy(fontar_base %>% select(-id), impute_na = T)
 
 
@@ -27,7 +31,7 @@ ready_dats = get_xy(fontar_base %>% select(-id), impute_na = T)
 set.seed(123)
 training_grid = crossing(
   ntrees = seq(100, 500, by = 100)
-  ,minobj = seq(50, 150, by = 10)
+  ,minobj = seq(50, 200, by = 10)
   ,varstry = seq(50, 150, by = 10)
 ) %>% sample_n(100)
 
