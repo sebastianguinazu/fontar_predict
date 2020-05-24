@@ -14,7 +14,6 @@ fontar_base_cruda = haven::read_dta(path_bd)
 fontar_benef = haven::read_dta(path_benef)
 
 #  tiro algunos estadisticos de base benef
-unique(fontar_orig$cuit) %>% length()
 table(fontar_benef$year)
 
 # analizo la bd
@@ -38,10 +37,15 @@ fontar_vd_table = rbind(table(fontar_base_cruda$target_i_prod)
       ,table(fontar_base_cruda$target_i_org)
       ,table(fontar_base_cruda$target_i_com)
       ,table(fontar_base_cruda$vd)
-      )
+      ) %>% unlist() %>% as.data.frame()
 row.names(fontar_vd_table) = c('Innovacion de producto', 'Innovacion de proceso',
                                'Innovacion organizacional', 'Innovacion comercial',
                                'Alguna innovacion')
+colnames(fontar_vd_table) = c('no_innovo', 'innovo')
+
+fontar_vd_table = fontar_vd_table %>% 
+  mutate(total = no_innovo + innovo,
+         prop_innovo = round(innovo/total, 2))
 
 # base final ------------------------------------------------------------------
 

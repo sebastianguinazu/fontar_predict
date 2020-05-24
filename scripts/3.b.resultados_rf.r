@@ -65,13 +65,18 @@ f_mat_conf = df_val %>%
   # mutate(pred = prob > f_ks$.threshold)
   mutate(pred = prob > 0.26)
 table(f_mat_conf$vd, f_mat_conf$pred) %>% addmargins()
-table(f_mat_conf$vd, f_mat_conf$pred) %>% prop.table()
+table(f_mat_conf$vd, f_mat_conf$pred) %>% prop.table() %>% round(3)
+
+df_val$vd = as.factor(df_val$vd) %>% 
+  plyr::revalue(c("FALSE"="No innovo", "TRUE"="Innovo"))
 
 # grafico de distribucion de prob por vd
 df_val %>% ggplot(aes(x = prob, fill = vd)) +
   geom_density(alpha = .7) +
   geom_vline(xintercept = 0.25) +
   scale_fill_grey() + theme_classic() +
+  labs(x = 'Probabilidad estimada', y = 'Densidad', 
+       fill = 'Observado:')
   NULL
 
 
